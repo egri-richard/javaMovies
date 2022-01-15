@@ -30,4 +30,14 @@ public class MovieDb {
 
         return retList;
     }
+
+    public int addMovie(String title, String category, int length, int rating) throws SQLException {
+        String sql = "INSERT INTO filmek(title, category, length, rating) VALUES(?, ?, ?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, title);
+        stmt.setString(2, category);
+        stmt.setInt(3, length);
+        stmt.setInt(4, rating);
+        return stmt.executeUpdate();
+    }
 }

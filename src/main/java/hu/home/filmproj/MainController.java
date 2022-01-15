@@ -2,13 +2,17 @@ package hu.home.filmproj;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class MainController {
+public class MainController extends HelperFunctions{
 
     @FXML
     private Button editBtn;
@@ -42,20 +46,24 @@ public class MainController {
         }
     }
 
-    private void errorAlert(Exception e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(e.getClass().toString());
-        alert.setContentText(e.getMessage());
-        alert.show();
-    }
-
     @FXML
     public void editBtnClick(ActionEvent actionEvent) {
     }
 
     @FXML
     public void addBtnClick(ActionEvent actionEvent) {
+
+        try {
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("add-view.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 400, 400);
+            stage.setTitle("Movies");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            errorAlert(e);
+        }
+
     }
 
     @FXML
