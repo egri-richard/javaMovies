@@ -40,4 +40,11 @@ public class MovieDb {
         stmt.setInt(4, rating);
         return stmt.executeUpdate();
     }
+
+    public int deleteMovie(int id) throws SQLException {
+        String sql = "DELETE FROM filmek WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, id);
+        return stmt.executeUpdate();
+    }
 }

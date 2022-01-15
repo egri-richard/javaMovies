@@ -30,18 +30,14 @@ public class MainController extends HelperFunctions{
     private Button addBtn;
     @FXML
     private Button deleteBtn;
+    private MovieDb db;
 
     public void initialize() {
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
         colLength.setCellValueFactory(new PropertyValueFactory<>("length"));
         colRating.setCellValueFactory(new PropertyValueFactory<>("rating"));
-        try {
-            List<Movie> movies = new MovieDb().getMovies();
-            for (Movie m: movies) {
-                movieTable.getItems().add(m);
-            }
-        } catch (SQLException e) {
+        try { fillTable(); } catch (SQLException e) {
             errorAlert(e);
         }
     }
@@ -52,13 +48,17 @@ public class MainController extends HelperFunctions{
 
     @FXML
     public void addBtnClick(ActionEvent actionEvent) {
-
         try {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("add-view.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 400, 400);
             stage.setTitle("Movies");
             stage.setScene(scene);
+            stage.setOnCloseRequest(event -> {
+                try { fillTable(); } catch (SQLException e) {
+                    errorAlert(e);
+                }
+            });
             stage.show();
         } catch (Exception e) {
             errorAlert(e);
@@ -68,5 +68,34 @@ public class MainController extends HelperFunctions{
 
     @FXML
     public void deleteBtnClick(ActionEvent actionEvent) {
+        if (movieTable.getSelectionModel().getSelectedIndex() == -1) {
+            alert("Törléshez kérem vállaszon ki elöbb egy elemet");
+            return;
+        }
+
+        Movie Selected = movieTable.getSelectionModel().getSelectedItem();
+
+        try {
+            if (db.deleteMovie(Selected.getId()) == 1) {
+                alert("Sikeres törlés");
+            } else {
+                alert("Sikertelen törlés");
+            }
+
+            fillTable();
+        } catch (SQLException e) {
+            errorAlert(e);
+        }
+    }
+
+    private void fillTable() throws SQLException {
+        db = new MovieDb();
+        List<Movie> movies = db.getMovies();
+
+        movieTable.getItems().clear();
+
+        for (Movie m: movies) {
+            movieTable.getItems().add(m);
+        }
     }
 }
