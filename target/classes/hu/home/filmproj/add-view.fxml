@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane hgap="10.0" vgap="20.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.home.filmproj.AddController">
+<GridPane hgap="10.0" vgap="20.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.home.filmproj.controllers.AddController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
       <ColumnConstraints hgrow="SOMETIMES" minWidth="30.0" prefWidth="220.0" />
