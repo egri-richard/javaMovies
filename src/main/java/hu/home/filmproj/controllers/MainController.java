@@ -1,5 +1,9 @@
-package hu.home.filmproj;
+package hu.home.filmproj.controllers;
 
+import hu.home.filmproj.Controller;
+import hu.home.filmproj.MainApplication;
+import hu.home.filmproj.Movie;
+import hu.home.filmproj.MovieDb;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-public class MainController extends HelperFunctions{
+public class MainController extends Controller {
 
     @FXML
     private Button editBtn;
@@ -44,22 +48,35 @@ public class MainController extends HelperFunctions{
 
     @FXML
     public void editBtnClick(ActionEvent actionEvent) {
+        if (movieTable.getSelectionModel().getSelectedIndex() == -1) {
+            alert("Módosításhoz kérem vállaszon ki elöbb egy elemet");
+            return;
+        }
+
+        Movie Selected = movieTable.getSelectionModel().getSelectedItem();
+
+        try {
+            EditController editWindow = (EditController) newWindow("edit-view.fxml", "Film módosítása");
+
+            editWindow.setToEdit(Selected);
+
+            editWindow.getStage().setOnHiding(event -> movieTable.refresh());
+            editWindow.getStage().show();
+        } catch (Exception e) {
+            errorAlert(e);
+        }
     }
 
     @FXML
     public void addBtnClick(ActionEvent actionEvent) {
         try {
-            Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("add-view.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 400, 400);
-            stage.setTitle("Movies");
-            stage.setScene(scene);
-            stage.setOnCloseRequest(event -> {
+            Controller addWindow = newWindow("add-view.fxml", "Film hozzáadása");
+            addWindow.getStage().setOnCloseRequest(event -> {
                 try { fillTable(); } catch (SQLException e) {
                     errorAlert(e);
                 }
             });
-            stage.show();
+            addWindow.getStage().show();
         } catch (Exception e) {
             errorAlert(e);
         }

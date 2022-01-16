@@ -1,11 +1,13 @@
-package hu.home.filmproj;
+package hu.home.filmproj.controllers;
 
+import hu.home.filmproj.Controller;
+import hu.home.filmproj.MovieDb;
 import javafx.event.ActionEvent;
 import javafx.scene.control.*;
 
 import java.sql.SQLException;
 
-public class AddController extends HelperFunctions {
+public class AddController extends Controller {
     @javafx.fxml.FXML
     private TextField tfTitle;
     @javafx.fxml.FXML

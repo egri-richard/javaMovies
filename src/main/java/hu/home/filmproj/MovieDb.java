@@ -18,7 +18,7 @@ public class MovieDb {
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
 
-        while(rs.next()) {
+        while (rs.next()) {
             int id = rs.getInt("id");
             String title = rs.getString("title");
             String category = rs.getString("category");
@@ -45,6 +45,22 @@ public class MovieDb {
         String sql = "DELETE FROM filmek WHERE id = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, id);
+        return stmt.executeUpdate();
+    }
+
+    public int editMovie(Movie toEdit) throws SQLException {
+        String sql = "UPDATE filmek SET " +
+                "title = ?, " +
+                "category = ?, " +
+                "length = ?, " +
+                "rating = ? " +
+                "WHERE id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, toEdit.getTitle());
+        stmt.setString(2, toEdit.getCategory());
+        stmt.setInt(3, toEdit.getLength());
+        stmt.setInt(4, toEdit.getRating());
+        stmt.setInt(5, toEdit.getId());
         return stmt.executeUpdate();
     }
 }
