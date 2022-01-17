@@ -36,6 +36,7 @@ public class MainController extends Controller {
     private Button deleteBtn;
     private MovieDb db;
 
+    //set values for the table cells, and fill the table
     public void initialize() {
         colTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
@@ -46,8 +47,10 @@ public class MainController extends Controller {
         }
     }
 
+    //edit the selected table row
     @FXML
     public void editBtnClick(ActionEvent actionEvent) {
+        //validate if table has a selected element
         if (movieTable.getSelectionModel().getSelectedIndex() == -1) {
             alert("Módosításhoz kérem vállaszon ki elöbb egy elemet");
             return;
@@ -60,22 +63,28 @@ public class MainController extends Controller {
 
             editWindow.setToEdit(Selected);
 
+            //the function below is called when editWindow is closed programmatically
             editWindow.getStage().setOnHiding(event -> movieTable.refresh());
+
             editWindow.getStage().show();
         } catch (Exception e) {
             errorAlert(e);
         }
     }
 
+    //add a new table row
     @FXML
     public void addBtnClick(ActionEvent actionEvent) {
         try {
             Controller addWindow = newWindow("add-view.fxml", "Film hozzáadása");
+
+            //function below is called when addWindow is closed by the user
             addWindow.getStage().setOnCloseRequest(event -> {
                 try { fillTable(); } catch (SQLException e) {
                     errorAlert(e);
                 }
             });
+
             addWindow.getStage().show();
         } catch (Exception e) {
             errorAlert(e);
@@ -83,6 +92,7 @@ public class MainController extends Controller {
 
     }
 
+    //delete table row
     @FXML
     public void deleteBtnClick(ActionEvent actionEvent) {
         if (movieTable.getSelectionModel().getSelectedIndex() == -1) {
@@ -105,6 +115,7 @@ public class MainController extends Controller {
         }
     }
 
+    //fill the table
     private void fillTable() throws SQLException {
         db = new MovieDb();
         List<Movie> movies = db.getMovies();

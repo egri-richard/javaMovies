@@ -78,6 +78,9 @@ public class EditController extends Controller {
         return toEdit;
     }
 
+    //function called in MainController
+    //passes the table selection to this controller
+    //sets the initial values for the inputs
     public void setToEdit(Movie toEdit) {
         this.toEdit = toEdit;
         setInitials();

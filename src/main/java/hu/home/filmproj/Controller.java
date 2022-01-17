@@ -8,7 +8,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+//frequently used functions pulled into an abstract class
 public abstract class Controller {
+    //required to save the stage of newWindow()
     protected Stage stage;
 
     public Stage getStage() {
@@ -37,6 +39,7 @@ public abstract class Controller {
         alert.showAndWait();
     }
 
+    //function that returns a new window
     public static Controller newWindow(String view, String alertTitle) throws IOException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(view));

@@ -21,6 +21,7 @@ public class AddController extends Controller {
 
     @javafx.fxml.FXML
     public void confirmAddBtnClick(ActionEvent actionEvent) {
+        //simple validation
         String title = tfTitle.getText().trim();
         if (title.isEmpty()) {
             alert("A Cím mező nem lehet üres");
@@ -52,8 +53,7 @@ public class AddController extends Controller {
         int rating = cbRatings.getValue();
 
         try {
-            int Success = new MovieDb().addMovie(title, category, length, rating);
-            if (Success == 1) {
+            if (new MovieDb().addMovie(title, category, length, rating) == 1) {
                 alert("A film hozzáadása sikeres");
             } else {
                 alert("A film hozzáadása sikertelen");
